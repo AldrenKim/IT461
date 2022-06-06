@@ -47,26 +47,11 @@ function App() {
   
   const controller = new AbortController();
   
-  var load = "";
-  const GetLoad = async (loader) => {
-    load = loader;
-    console.log(load);
+  // var load = "";
+  // const GetLoad = async (loader) => {
+  //   load = loader;
+  //   console.log(load);
 
-    if (load === "dog") {
-      getDogs(url, { signal: controller.signal });
-      return () => {
-        controller.abort();
-      }
-    }
-    else {
-      getCats(urlCats, { signal: controller.signal });
-      return () => {
-        controller.abort();
-      }
-    }
-  };
-
-  // useEffect(() => {
   //   if (load === "dog") {
   //     getDogs(url, { signal: controller.signal });
   //     return () => {
@@ -79,7 +64,19 @@ function App() {
   //       controller.abort();
   //     }
   //   }
-  // },[]);
+  // };
+
+  useEffect(() => {
+    async function asyncMount() {
+      await getDogs(url, { signal: controller.signal });
+      await getCats(urlCats, { signal: controller.signal });
+      return () => {
+        controller.abort();
+      }
+    }
+
+    asyncMount();
+  },[]);
 
   
 
